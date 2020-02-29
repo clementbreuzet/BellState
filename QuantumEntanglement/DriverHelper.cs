@@ -4,9 +4,9 @@ namespace QuantumEntanglement
 {
 	public static class DriverHelper
 	{
-		public static void WriteResult(long zerosMatch, long onesMatch, int iteration)
+		public static void WriteResult(long zerosMatch, long onesMatch, long zerosUnmatch, long onesUnmatch, int iteration)
 		{
-			(string matchesString, string unmatchesString) = GetStrings(zerosMatch, onesMatch, iteration);
+			(string matchesString, string unmatchesString) = GetStrings(zerosMatch, onesMatch, zerosUnmatch, onesUnmatch, iteration);
 			double matchRatio = GetMatchRatio(zerosMatch, onesMatch, iteration);
 			Console.Write("[ ");
 			Console.BackgroundColor = ConsoleColor.Green;
@@ -14,12 +14,12 @@ namespace QuantumEntanglement
 			Console.BackgroundColor = ConsoleColor.Red;
 			Console.Write($"{unmatchesString}");
 			Console.ResetColor();
-			Console.Write($" ] Ratio: {matchRatio}%");
-			Console.Write($" Zero: {zerosMatch} One: {onesMatch}");
+			Console.Write($" ] Ratio: {matchRatio}% /");
+			Console.Write($" Match -> Zero: {zerosMatch} One: {onesMatch} / Unmatch -> Zero: {zerosUnmatch} One: {onesUnmatch}");
 			Console.WriteLine(Environment.NewLine);
 		}
 
-		private static (string matchesString, string unmatchesString) GetStrings(long zerosMatch, long onesMatch, int iteration)
+		private static (string matchesString, string unmatchesString) GetStrings(long zerosMatch, long onesMatch, long zerosUnmatch, long onesUnmatch, int iteration)
 		{
 			string matchesString = string.Empty;
 			string unmatchesString = string.Empty;
