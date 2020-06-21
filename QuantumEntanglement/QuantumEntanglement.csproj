@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Quantum.Numerics" Version="0.10.2002.2610" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuantumEntanglement.Quantum\QuantumEntanglement.Quantum.csproj" />
+  </ItemGroup>
+
 </Project>

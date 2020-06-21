@@ -1,4 +1,4 @@
-﻿namespace Quantum.QuantumEntanglement {
+﻿namespace Quantum.QuantumEntanglement.Quantum {
 
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
