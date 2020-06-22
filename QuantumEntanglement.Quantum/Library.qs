@@ -1,42 +1,46 @@
 ﻿namespace Quantum.QuantumEntanglement.Quantum {
 
+    open Microsoft.Quantum.Measurement;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
-    
-    operation TestBellState((q0Init: Result, q1Init: Result), iteration: Int) : (Int, Int, Int, Int) {
-        mutable onesMatch = 0;
-        mutable zerosMatch = 0;
-        mutable onesUnmatch = 0;
-        mutable zerosUnmatch = 0;
-        using ((q0, q1) = (Qubit(), Qubit())) {
-            for (test in 1..iteration) {
-                Set(q0Init, q0);
-                Set(q1Init, q1);
 
+    newtype BellStateInitialResult = (q0Init: Result, q1Init: Result);
+    newtype BellStateOutput = (OnesMatch: Int, ZerosMatch: Int, OnesUnmatch: Int, ZerosUnmatch: Int);
+    newtype BellStateInput = (BellStateInitialResult: BellStateInitialResult, Iteration: Int);
+    
+    operation TestBellState(bellStateInput: BellStateInput) : BellStateOutput {     
+        mutable result = BellStateOutput(0, 0, 0, 0);
+        using ((q0, q1) = (Qubit(), Qubit())) {
+            for (test in 1..bellStateInput::Iteration) {
+                Set(bellStateInput::BellStateInitialResult::q0Init, q0);
+                Set(bellStateInput::BellStateInitialResult::q1Init, q1);
                 H(q0);
                 CNOT(q0, q1);
-
-                let q0result = M(q0);
-                let q1result = M(q1);
-                if (q0result == q1result) {
-                    if(q0result == One){
-                        set onesMatch += 1;           
-					} else{
-                        set zerosMatch += 1; 
-					}
-                } else {
-                    if(q0result == One){
-                        set onesUnmatch += 1;           
-					} else{
-                        set zerosUnmatch += 1; 
-					}
-				}
+                let q0result = MResetZ(q0);
+                let q1result = MResetZ(q1);
+                set result = GetBellStateResult(result, q0result, q1result);
             }
-            Set(Zero, q0);
-            Set(Zero, q1);
         }
-        return (zerosMatch, onesMatch, zerosUnmatch, onesUnmatch);
+        return result;
 	}
+
+    function GetBellStateResult(result: BellStateOutput, q0Result: Result, q1Result: Result): BellStateOutput {
+        mutable mutableResult = result;
+        if (q0Result == q1Result) {
+            if(q0Result == One){
+                return mutableResult w/ OnesMatch <- mutableResult::OnesMatch + 1;
+			} else {
+                return mutableResult w/ ZerosMatch <- mutableResult::ZerosMatch + 1; 
+			}
+        } else {
+            if(q0Result == One){
+                return mutableResult w/ OnesUnmatch <- mutableResult::OnesUnmatch + 1;
+			} else{
+                return mutableResult w/ ZerosUnmatch <- mutableResult::ZerosUnmatch + 1;
+			}    
+		}
+	}
+
 
     operation Set(desiredResult : Result, qubit : Qubit) : Unit {
         if (desiredResult != M(qubit)) {
