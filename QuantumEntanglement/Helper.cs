@@ -21,7 +21,7 @@ namespace QuantumEntanglement
             Console.WriteLine(Environment.NewLine);
         }
 
-        private static (string matchesString, string unmatchesString) GetStrings(long zerosMatch, long onesMatch, long zerosUnmatch, long onesUnmatch, int iteration)
+        private static (string matchesString, string unmatchesString) GetStrings(long zerosMatch, long onesMatch, int iteration)
         {
             string matchesString = string.Empty;
             string unmatchesString = string.Empty;
