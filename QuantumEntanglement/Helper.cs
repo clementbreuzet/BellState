@@ -8,7 +8,7 @@ namespace QuantumEntanglement
     {
         public static void WriteResult(long zerosMatch, long onesMatch, long zerosUnmatch, long onesUnmatch, int iteration)
         {
-            (string matchesString, string unmatchesString) = GetStrings(zerosMatch, onesMatch, zerosUnmatch, onesUnmatch, iteration);
+            (string matchesString, string unmatchesString) = GetStrings(zerosMatch, onesMatch, iteration);
             double matchRatio = GetMatchRatio(zerosMatch, onesMatch, iteration);
             Console.Write("[ ");
             Console.BackgroundColor = ConsoleColor.Green;
