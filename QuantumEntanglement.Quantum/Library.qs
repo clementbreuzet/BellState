@@ -21,8 +21,8 @@
         // On initialise un tuple mutable BellStateOutput
         mutable result = BellStateOutput(0, 0, 0, 0);
 
-        // On déclare deux qubits dans un bloc using
-        using ((q0, q1) = (Qubit(), Qubit())) {
+        // On déclare deux qubits dans un bloc borrowing
+        borrowing ((q0, q1) = (Qubit(), Qubit())) {
 
             //On itère sur l'item iteration du tuple BellStateInput
             for (_ in 1..bellStateInput::Iteration) {
